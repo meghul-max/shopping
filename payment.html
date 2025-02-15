@@ -1,0 +1,181 @@
+<html>
+<head>
+    <title>Card Payment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background: url('snap.jpeg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .navbar {
+            background-color: #00a8e8;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar .logo {
+            font-size: 24px;
+            font-family: Cambria;
+            color: #1f2833;
+            font-weight: bold;
+        }
+        .navbar a {
+            color: #1f2833;
+            font-size: 20px;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: inline-block;
+        }
+        .navbar a:hover {
+            color: #0056b3;
+        }
+        form {
+            background-color: white;
+            padding: 20px;
+            margin: 50px auto;
+            width: 50%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        form h2 {
+            font-size: 36px;
+            font-family: Cambria;
+            text-align: center;
+
+            margin: 0;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #00a8e8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">Online Shopping</div>
+        <div>
+            <a href="index.html">Home</a>
+        </div>
+    </div>
+
+    <form id="card-payment-form">
+        <h2>Card Payment Details</h2><br><br>
+        <div class="form-group">
+            <label for="name">Name on Card:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            <div class="error" id="name-error"></div>
+        </div>
+        <div class="form-group">
+            <label for="card-number">Card Number:</label>
+            <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456" required maxlength="16" oninput="validateNumberInput(this)">
+            <div class="error" id="card-number-error"></div>
+        </div>
+        <div class="form-group">
+            <label for="expiry-date">Expiry Date:</label>
+            <input type="month" id="expiry-date" name="expiry-date" required>
+            <div class="error" id="expiry-date-error"></div>
+        </div>
+        <div class="form-group">
+            <label for="cvv">CVV:</label>
+            <input type="text" id="cvv" name="cvv" placeholder="123" required maxlength="3" oninput="validateNumberInput(this)">
+            <div class="error" id="cvv-error"></div>
+        </div>
+        <div class="form-group">
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" placeholder="5000" required min="1" max="100000000" oninput="validateNumberInput(this)">
+            <div class="error" id="amount-error"></div>
+        </div>
+        <div class="form-group">
+            <button type="submit">Make Payment</button>
+        </div>
+<p style="font-size: 20px;">For online payment use this number <u>9701202510</u></p>
+    </form>
+
+    <script>
+        document.getElementById('card-payment-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            let isValid = validateForm();
+
+            if (isValid) {
+                window.location.href = 'thank.html';
+            }
+        });
+
+        function validateForm() {
+            let isValid = true;
+
+            document.querySelectorAll('.error').forEach(function (errorElement) {
+                errorElement.innerHTML = '';
+            });
+
+            
+            const name = document.getElementById('name').value.trim();
+            if (name.length < 5) {
+                document.getElementById('name-error').innerText = 'Name must be at least 5 characters long!';
+                isValid = false;
+            }
+
+         
+            const cardNumber = document.getElementById('card-number').value.trim();
+            if (cardNumber.length !== 16) {
+                document.getElementById('card-number-error').innerText = 'Card number must be exactly 16 digits!';
+                isValid = false;
+            }
+
+            const cvv = document.getElementById('cvv').value.trim();
+            if (cvv.length !== 3) {
+                document.getElementById('cvv-error').innerText = 'CVV must be exactly 3 digits!';
+                isValid = false;
+            }
+
+            const amount = document.getElementById('amount').value.trim();
+            if (amount <= 0 || amount > 100000000) {
+                document.getElementById('amount-error').innerText = 'Please enter a valid amount!';
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function validateNumberInput(input) {
+            input.value = input.value.replace(/[^0-9]/g, ''); 
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,393 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background: url('snap.jpeg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        header {
+            background-color: #00a8e8;
+            padding: 10px;
+            font-family: Cambria, serif;
+            font-size: 20px;
+        }
+        nav {
+            color: #1f2833;
+            width: 100%;
+        }
+        nav a {
+            text-decoration: none;
+            color: #1f2833;
+            font-size: 32px;
+            display: inline-block;
+            width: 10%;
+            text-align: center;
+        }
+        nav a:hover {
+            color: #0056b3;
+        }
+        .items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .items .item {
+            border: 1px solid white;
+            background-color: white;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px;
+            width: 200px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+        .items .item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid #ddd;
+        }
+        .items .item:hover {
+            transform: scale(1.05);
+        }
+        .items .item h3 {
+            margin: 10px 0;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .items .item p {
+            margin: 0;
+            font-size: 18px;
+            color: black;
+        }
+        .add-to-cart-btn {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #00a8e8;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 60%;
+            font-size: 14px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .add-to-cart-btn:hover {
+            background-color: #0056b3;
+        }
+        .modal-footer .add-to-cart-btn {
+            width: 30%;
+            background-color:#00a8e8;
+            font-size: 14px;
+        }
+        .modal-footer .add-to-cart-btn:hover {
+            background-color: #0056b3;
+        }
+   </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script>
+$(document).ready(function () {
+    $(".add-to-cart-btn").click(function () {
+        let productName = $(this).siblings("h3").text();
+        let productPrice = $(this).siblings("p").text();
+        let productCategory = $(this).siblings("h3").data("category");
+
+        let quantity = $("#product-quantity").val().trim();
+        if (!quantity || isNaN(quantity) || parseInt(quantity) <= 0) {
+            alert("Please enter a valid quantity greater than zero.");
+            window.history.back();
+            return;
+        }
+
+        $("#productModal").modal("show");
+    });
+
+    $(".item").click(function () {
+        let productName = $(this).find("h3").text();
+        let productPrice = $(this).find("p").text();
+        let productImage = $(this).find("img").attr("src");
+        let productDescription = $(this).find("h3").data("description");
+
+        $("#product-name").text(productName);
+        $("#product-price").text(productPrice);
+        $("#product-image").attr("src", productImage);
+        $("#product-description").text(productDescription);
+
+        $("#productModal").modal("show");
+    });
+
+    $(".modal-footer .add-to-cart-btn").click(function () {
+        window.location.href = "payment.html";
+    });
+
+    $("#category-filter").change(function () {
+        let selectedCategory = $(this).val();
+
+        $(".item").each(function () {
+            let itemCategory = $(this).find("h3").data("category");
+
+            if (selectedCategory === "all" || itemCategory === selectedCategory) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    });
+
+    $("form").submit(function (event) {
+        let quantity = $("#quantity").val().trim();
+
+        if (!quantity || isNaN(quantity) || parseInt(quantity) <= 0) {
+            alert("Please enter a valid quantity greater than zero.");
+            window.location.href = "online shopping.html";
+            event.preventDefault();
+        }
+    });
+});
+
+
+    </script>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<header>
+    <h1>Online Shopping</h1>
+    <nav>
+        <a href="registration.html">Register</a>
+    </nav>
+    <div style="margin: 10px;">
+        <select id="category-filter" style="padding: 5px;">
+            <option value="all">All Categories</option>
+            <option value="clothing">Clothing</option>
+            <option value="footwear">Footwear</option>
+            <option value="electronics">Electronics</option>
+            <option value="groceries">Groceries</option>
+            <option value="books">Books</option>
+        </select>
+    </div>
+</header>
+<p style="font-family: Cambria; font-size: 28px;">Welcome To The Shopping Page</p>
+<div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="img1.png" class="d-block w-100" alt="cr7">
+        </div>
+        <div class="carousel-item">
+            <img src="img2.png" class="d-block w-100" alt="marco">
+        </div>
+        <div class="carousel-item">
+            <img src="img3.png" class="d-block w-100" alt="marco">
+        </div>
+        <div class="carousel-item">
+            <img src="img4.png" class="d-block w-100" alt="marco">
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+<div class="items">
+    <div class="item">
+        <img src="cloth3.jpg">
+        <h3 data-category="clothing" data-description="A premium shirt for every occasion, made with high-quality fabric.">bhAAi Shirt</h3>
+        <p>&#8377; 100000</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+    <div class="item">
+        <img src="pant1.jpg">
+        <h3 data-category="clothing" data-description="Rugged yet stylish, these cargo pants offer durability and plenty of pockets for functionality.">Cargo Pant</h3>
+        <p>&#8377; 900</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+    <div class="item">
+        <img src="shorts1.jpg">
+        <h3 data-category="clothing" data-description="Designed for Marvel fans, these lightweight and comfy shorts are perfect for everyday wear.">Marvel Shorts</h3>
+        <p>&#8377; 400</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+<div class="item">
+        <img src="eda.jpg">
+        <h3 data-category="clothing" data-description="Express yourself with this bold and iconic Aavesham T-shirt, made with soft, breathable fabric.">Aavesham T-shirt</h3>
+        <p>&#8377; 400</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+<div class="item">
+        <img src="cars.jpg">
+        <h3 data-category="clothing" data-description="Stay trendy with this oversized T-shirt featuring a fun Cars design. Great for a relaxed look.">Cars oversized T-shirt</h3>
+        <p>&#8377; 600</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+
+
+    <div class="item">
+        <img src="shoes1.jpg">
+        <h3 data-category="footwear" data-description="Step up your style game with these exclusive Ronaldo-printed shoes, combining comfort and flair.">Ronaldo Printed Shoes</h3>
+        <p>&#8377; 20000</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+ <div class="item">
+        <img src="printed.jpg">
+        <h3 data-category="footwear" data-description="Unleash your inner superhero with these sleek Batman-themed Jordans, perfect for every adventure.">Batman Jordans</h3>
+        <p>&#8377; 16000</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+ <div class="item">
+        <img src="sandal.jpg">
+        <h3 data-category="footwear" data-description="Comfort meets style in these Batman-inspired sandals, ideal for casual outings.">Batman Sandals</h3>
+        <p>&#8377; 7000</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+<div class="item">
+        <img src="chappal.jpg">
+        <h3 data-category="footwear" data-description="Simple yet durable, these casual chappals are perfect for everyday wear at an unbeatable price.">Casual Chappal</h3>
+        <p>&#8377; 120</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+ <div class="item">
+        <img src="football.jpg">
+        <h3 data-category="footwear" data-description="Designed for athletes, these high-performance studs ensure maximum grip and style on the field.">Studs</h3>
+        <p>&#8377; 9000</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+
+    <div class="item">
+        <img src="mobile2.png">
+        <h3 data-category="electronics" data-description="Experience the future of technology with the latest iPhone, boasting unparalleled performance and design.">Iphone 25 Pro Max</h3>
+        <p>&#8377; 600000</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+    <div class="item">
+        <img src="asus.png">
+        <h3 data-category="electronics" data-description="Unleash your gaming potential with this high-performance Asus laptop featuring cutting-edge graphics.">Asus Gaming Laptop</h3>
+        <p>&#8377; 400000</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+    <div class="item">
+        <img src="airpods.jpg">
+        <h3 data-category="electronics" data-description="Immerse yourself in crystal-clear sound with Apple Airpods, the ultimate wireless audio experience.">Apple Airpods</h3>
+        <p>&#8377; 5000</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+<div class="item">
+        <img src="boat.jpg">
+        <h3 data-category="electronics" data-description="Get lost in your favorite tunes with these Boat headphones, designed for deep bass and comfort.">Boat Headphones</h3>
+        <p>&#8377; 8000</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+<div class="item">
+        <img src="lenevo.jpg">
+        <h3 data-category="electronics" data-description="A powerhouse for gaming and multitasking, this Lenovo laptop offers speed and style.">Lenevo Gaming Laptop</h3>
+        <p>&#8377; 60000</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+
+    <div class="item">
+        <img src="banana.png">
+        <h3 data-category="groceries" data-description="Fresh and ripe bananas, perfect for a healthy snack or a boost of energy on the go.">Banana</h3>
+        <p>&#8377; 44 (1 kg)</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+    <div class="item">
+        <img src="mirchi.png">
+        <h3 data-category="groceries" data-description="Add a fiery kick to your dishes with our farm-fresh chilies, packed with flavor and spice.">Mirchi</h3>
+        <p>&#8377; 30 (1 kg)</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+    <div class="item">
+        <img src="potato.png">
+        <h3 data-category="groceries" data-description="Versatile and delicious, these premium potatoes are a kitchen essential for every recipe.">Potato</h3>
+        <p>&#8377; 50 (1 kg)</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+
+    <div class="item">
+        <img src="chanakya.png">
+        <h3 data-category="books" data-description="Discover timeless wisdom and strategies from one of history's greatest thinkers in this classic book.">Chanakya Neeti Book</h3>
+        <p>&#8377; 300</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+    <div class="item">
+        <img src="shesh.png">
+        <h3 data-category="books" data-description="Dive into an engaging narrative that explores life’s unanswered questions in this thought-provoking novel.">Shesh Prashna Book</h3>
+        <p>&#8377; 250</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+<div class="item">
+        <img src="letgo.jpg">
+        <h3 data-category="books" data-description="Learn the secrets of emotional freedom and personal growth with this inspiring guide.">Art of Letting go</h3>
+        <p>&#8377; 250</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+<div class="item">
+        <img src="bhagwad.jpg">
+        <h3 data-category="books" data-description="A spiritual masterpiece that offers profound lessons for life, straight from ancient Indian scriptures.">Bhagwad Gita</h3>
+        <p>&#8377; 350</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+<div class="item">
+        <img src="kampf.jpg">
+        <h3 data-category="books" data-description="Explore a controversial yet historical account that shaped the course of 20th-century history.">Mein Kampf</h3>
+        <p>&#8377; your life</p>
+        <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+
+</div>
+<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="productModalLabel">Product Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <img id="product-image" src="" alt="Product Image" class="img-fluid">
+        <h3 id="product-name"></h3>
+        <p id="product-price"></p>
+        <p id="product-description"></p>
+
+        <div class="mb-3 d-flex">
+         	<div class="me-3">
+          <label for="product-size" class="form-label">Size</label>
+          <select id="product-size" class="form-select">
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+            <option value="XXL">XXL</option>
+            <option value="XXXL">XXXL</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label style="margin-left: -140px" for="product-quantity" class="form-label">Quantity</label>
+          <input style="width: 35%" type="number" id="product-quantity" class="form-control" value="1" min="1">
+        </div>
+
+      </div>
+ <div class="modal-footer">
+
+        <button type="button" class="btn btn-primary add-to-cart-btn">Make payment</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+
+
